@@ -9,6 +9,11 @@ import (
 	"strings"
 )
 
+type problem struct {
+	question string
+	answer   string
+}
+
 func main() {
 
 	correct := 0
@@ -16,26 +21,36 @@ func main() {
 	filename := flag.String("filename", "problems.csv", "The file with the questions.")
 	flag.Parse()
 
-	problems, err := os.Open(*filename)
+	problemsCSV, err := os.Open(*filename)
 	check(err)
 
-	reader := csv.NewReader(problems)
+	reader := csv.NewReader(problemsCSV)
 	problemsAll, err := reader.ReadAll()
 	check(err)
 
-	for _, p := range problemsAll {
-		p[1] = strings.ToLower(p[1])
-		p[1] = strings.TrimSpace(p[1])
-		fmt.Printf("%s?: ", p[0])
+	for _, p := range makeProblems(problemsAll) {
+		fmt.Printf("%s?: ", p.question)
 		userInput := bufio.NewReader(os.Stdin)
 		answer, _ := userInput.ReadString('\n')
 		answer = strings.ToLower(answer)
 		answer = strings.TrimSpace(answer)
-		if p[1] == answer {
+		if p.answer == answer {
 			correct++
 		}
 	}
 	fmt.Printf("Total: %d, Correct: %d.", len(problemsAll), correct)
+}
+
+func makeProblems(problems [][]string) []problem {
+	result := []problem{}
+	for _, p := range problems {
+		tmp := problem{
+			question: p[0],
+			answer:   strings.TrimSpace(p[1]),
+		}
+		result = append(result, tmp)
+	}
+	return result
 }
 
 func check(e error) {
