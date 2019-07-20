@@ -1,6 +1,7 @@
 package urlshort
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -15,9 +16,7 @@ import (
 // http.Handler will be called instead.
 func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r)
 		path, ok := pathsToUrls[r.URL.Path]
-		fmt.Println(path)
 		if ok {
 			http.Redirect(w, r, path, http.StatusFound)
 		} else {
@@ -43,20 +42,35 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 // See MapHandler to create a similar http.HandlerFunc via
 // a mapping of paths to urls.
 func YAMLHandler(yml []byte, fallback http.Handler) (http.HandlerFunc, error) {
-	fmt.Println(yml)
 	parsedYaml, err := parseYAML(yml)
-	fmt.Println(parsedYaml)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 	pathMap := buildMap(parsedYaml)
-	fmt.Println(pathMap)
+	return MapHandler(pathMap, fallback), nil
+}
+
+//
+// JSONHandler implementation
+//
+func JSONHandler(jsn []byte, fallback http.Handler) (http.HandlerFunc, error) {
+	parsedJSON, err := parseJSON(jsn)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	pathMap := buildMap(parsedJSON)
 	return MapHandler(pathMap, fallback), nil
 }
 
 func parseYAML(yml []byte) (prsd []map[string]string, err error) {
 	err = yaml.Unmarshal(yml, &prsd)
+	return prsd, err
+}
+
+func parseJSON(jsn []byte) (prsd []map[string]string, err error) {
+	err = json.Unmarshal(jsn, &prsd)
 	return prsd, err
 }
 

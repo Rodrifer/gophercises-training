@@ -12,9 +12,13 @@ func main() {
 	mux := defaultMux()
 
 	fileYAML := flag.String("yaml", "redirects.yaml", "The YAML file with the redirects config")
+	fileJSON := flag.String("json", "redirects.json", "The JSON file with the redirects config")
 	flag.Parse()
 
 	redirectsYAML, err := ioutil.ReadFile(*fileYAML)
+	check(err)
+
+	redirectsJSON, err := ioutil.ReadFile(*fileJSON)
 	check(err)
 
 	// Build the MapHandler using the mux as the fallback
@@ -42,8 +46,13 @@ func main() {
 		panic(err)
 	}
 
+	jsonFileHandler, err := urlshort.JSONHandler([]byte(string(redirectsJSON)), yamlFileHandler)
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println("Starting the server on :8080")
-	http.ListenAndServe(":8080", yamlFileHandler)
+	http.ListenAndServe(":8080", jsonFileHandler)
 }
 
 func defaultMux() *http.ServeMux {
