@@ -4,4 +4,4 @@ Resolved exercises of [Gophercises](https://gophercises.com) as part of my learn
 
 [EX1 Quiz Game](/quiz_game/) (Finished)
 
-[EX2 URL Shortener](/url_shortener/) (In Progress)
+[EX2 URL Shortener](/url_shortener/) (Finished) (Bonus 3 with BoltDB)

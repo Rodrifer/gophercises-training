@@ -64,6 +64,13 @@ func JSONHandler(jsn []byte, fallback http.Handler) (http.HandlerFunc, error) {
 	return MapHandler(pathMap, fallback), nil
 }
 
+//
+// BoltDBHandler handler
+//
+func BoltDBHandler(pathMap map[string]string, fallback http.Handler) (http.HandlerFunc, error) {
+	return MapHandler(pathMap, fallback), nil
+}
+
 func parseYAML(yml []byte) (prsd []map[string]string, err error) {
 	err = yaml.Unmarshal(yml, &prsd)
 	return prsd, err
