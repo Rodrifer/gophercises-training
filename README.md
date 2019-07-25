@@ -6,4 +6,4 @@ Resolved exercises of [Gophercises](https://gophercises.com) as part of my learn
 
 [EX2 URL Shortener](/url_shortener/) (Finished) (Bonus 1,2,3 with BoltDB)
 
-[EX3 Choose Your Own Adventure](/cyoa/) (In Progress)
+[EX3 Choose Your Own Adventure](/cyoa/) (Finished)
