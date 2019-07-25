@@ -1,0 +1,14 @@
+<h1>{{.Title}}</h1>
+<div>
+    {{range .Content}}
+        <p>{{.}}</p>
+    {{end}}
+
+    {{if .Options}}
+        {{range .Options}}
+            <a href="/{{.Arc}}">{{.Description}}</a><br><br>
+        {{end}}
+    {{else}}
+        <a href="/intro">Go to the Start.</a>
+    {{end}}
+</div>
