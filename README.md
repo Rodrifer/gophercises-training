@@ -1,4 +1,4 @@
-# gophercises-training
+# Gophercises Training
 
 Resolved exercises of [Gophercises](https://gophercises.com) as part of my learning of [Go](https://golang.org/)
 
@@ -8,4 +8,4 @@ Resolved exercises of [Gophercises](https://gophercises.com) as part of my learn
 
 [EX3 Choose Your Own Adventure](/cyoa/) (Finished)
 
-[EX3 Link Parser](/link_parser/) (No tests)
+[EX4 Link Parser](/link_parser/) (No tests)
